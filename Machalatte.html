@@ -1,0 +1,419 @@
+<!DOCTYPE html>    
+<html lang="en">    
+<head>      
+    <meta charset="UTF-8">      
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">      
+    <title>Portfolio - Gene Mae Caramihan</title>   
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">      
+    <style>      
+        html { scroll-behavior: smooth; }      
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; list-style: none; }      
+        body { background: #030e16; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }      
+        .container { max-width: 1300px; margin: auto; padding: 0 10%; }      
+        
+        header { width: 100%; padding: 40px 0; display: flex; justify-content: space-between; align-items: center; }      
+        .logo { font-size: 32px; font-weight: 800; }      
+        .logo span { color: #00bfff; }      
+        nav { display: flex; gap: 30px; align-items: center; }      
+        nav a { color: white; font-size: 16px; font-weight: 500; transition: .3s; cursor: pointer; }      
+        nav a:hover { color: #00bfff; text-shadow: 0 0 10px #00bfff; }      
+        .cv-btn { background: #ff4d79; padding: 10px 25px; border-radius: 8px; color: white; font-weight: 600; transition: .3s; }  
+        .cv-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255, 77, 121, 0.4); }  
+        
+        .hero { display: flex; align-items: center; justify-content: space-between; margin-top: 50px; gap: 100px; padding-bottom: 100px; position: relative; }      
+        .hero-img img { width: 400px; height: 400px; object-fit: cover; border-radius: 50%; border: 4px solid #00bfff; box-shadow: 0 0 25px rgba(0, 191, 255, 0.3); cursor: pointer; animation: float 4s ease-in-out infinite; }      
+        
+        .hero-text h1 { 
+            font-size: 60px; 
+            min-height: 80px;
+            background: linear-gradient(90deg, #fff, #00bfff, #fff);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s linear infinite;
+        }
+        
+        .typing-cursor { color: #00bfff; animation: blink 0.7s infinite; -webkit-text-fill-color: #00bfff; }
+
+        @keyframes glow { 0% { background-position: 0%; } 100% { background-position: 200%; } }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .hero-text p { color: #bdc3c7; margin: 20px 0; }      
+        .social { display: flex; gap: 15px; margin-bottom: 30px; }      
+        .social a { width: 45px; height: 45px; border: 2px solid #00bfff; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #00bfff; font-size: 20px; transition: .4s; }      
+        .social a:hover { background: #00bfff; color: #030e16; box-shadow: 0 0 15px #00bfff; }      
+        .buttons { display: flex; gap: 20px; flex-wrap: nowrap; }      
+        .btn { padding: 14px 35px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: .3s; }      
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 191, 255, 0.4); }  
+        .hire { background: #00bfff; color: #030e16; }      
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }  
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }  
+    
+        section { display: none; padding: 100px 40px; position: relative; margin-top: 50px; border-radius: 30px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); }      
+        section.active { display: block; animation: fadeInUp 0.7s ease-out forwards; }  
+        section.hero.active { display: flex; }  
+
+        #about, #tutorials, #project-view, #contact {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #030e16;
+            z-index: 10000;
+            padding: 20px;
+            overflow-y: auto;
+            border-radius: 0;
+            margin-top: 0;
+            border: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #about.active, #tutorials.active, #project-view.active, #contact.active {
+            display: flex;
+        }
+
+        .overlay-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 1200px;
+            width: 90%;
+            position: relative;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .exit-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: transparent;
+            border: 1px solid #00bfff;
+            color: #00bfff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            z-index: 10001;
+        }
+        .exit-btn:hover { background: #00bfff; color: #030e16; }
+
+        .tab-btn {
+            padding: 12px 35px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            background: transparent;
+            border: 2px solid #00bfff;
+            color: white;
+            font-size: 15px;
+        }
+        .active-tab { background: #00bfff !important; color: #030e16 !important; }
+
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 40px; width: 100%; }      
+        .portfolio-item { position: relative; border-radius: 20px; overflow: hidden; cursor: pointer; transition: .3s; min-height: 280px; display: flex; flex-direction: column; }  
+        .portfolio-item img { width: 100%; height: 200px; object-fit: cover; display: block; border-radius: 20px 20px 0 0; }
+
+        .work-caption { 
+            position: relative; 
+            width: 100%; 
+            background: rgba(0, 191, 255, 0.1); 
+            border-top: 1px solid rgba(0, 191, 255, 0.3);
+            padding: 15px; 
+            color: white; 
+            text-align: center; 
+            font-weight: 600; 
+            border-radius: 0 0 20px 20px;
+            font-size: 14px;
+        }
+
+        .contact-box {
+            background: rgba(10, 31, 46, 0.7);
+            padding: 40px;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .contact-box input, .contact-box textarea {
+            width: 100%; padding: 18px; margin-bottom: 20px; border-radius: 12px; 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; outline: none;
+        }
+        .submit-btn { background: #00bfff; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; color: #030e16; border: none; width: 100%; }
+
+        .output-card { background: #080808; border: 2px solid #1e1e1e; border-radius: 30px; padding: 50px 30px; text-align: center; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; width: 100%; }
+        .figma-icon { font-size: 80px; margin-bottom: 25px; background: linear-gradient(180deg, #F24E1E 0%, #FF7262 25%, #A259FF 50%, #1ABCFE 75%, #0ACF83 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .canva-icon { font-size: 80px; margin-bottom: 25px; color: #00C4CC; }
+        .visit-btn { background: #a259ff; color: white; padding: 15px 60px; border-radius: 50px; font-weight: 600; display: inline-block; margin-top: 15px; }
+
+        .chatbot-window { display: none; position: absolute; bottom: 120px; right: 0; width: 320px; height: 400px; background: #051622; border: 2px solid #00bfff; border-radius: 20px; z-index: 100; flex-direction: column; overflow: hidden; }
+        .chat-header { background: #00bfff; color: #030e16; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 10px; }
+        .bot-msg { background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 12px 12px 12px 0; align-self: flex-start; }
+        .user-msg { background: #00bfff; color: #030e16; padding: 8px 12px; border-radius: 12px 12px 0 12px; align-self: flex-end; }
+
+        .modal { display: none; position: fixed; z-index: 20000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; }
+        .modal img { max-width: 90%; max-height: 80%; border-radius: 15px; }
+        .close { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
+        .tab-content { display: none; animation: fadeInUp 0.5s ease-out; }
+    </style>  
+</head>  
+<body>  
+    <div class="container">      
+        <header id="header-top">      
+            <div class="logo">Port<span>folio</span></div>      
+            <nav>      
+                <a onclick="toggleSection('home')">Home</a>      
+                <a onclick="toggleSection('about')">About</a>      
+                <a onclick="toggleSection('tutorials')">Tutorials</a>          
+                <a onclick="toggleSection('contact')">Contact</a>      
+                <a href="my-cv.pdf" class="cv-btn" download>Download CV</a>
+            </nav>
+        </header>   
+
+        <section id="home" class="hero active">      
+            <div class="hero-img"><img src="image 1.png" class="zoomable"></div>      
+            <div class="hero-text">       
+                <h1 id="animated-name"></h1>      
+                <p>I am a passionate web developer who enjoys creating clean and responsive websites.</p>      
+                <div class="social">      
+                    <a href="https://www.facebook.com/share/1BXf8UhWdn/" target="_blank"><i class="fab fa-facebook-f"></i></a>          
+                    <a href="https://www.instagram.com/ghenny_02?igsh=dWhpMTVvcXVkMXJ2" target="_blank"><i class="fab fa-instagram"></i></a>      
+                    <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>  
+                <div class="buttons">      
+                    <a onclick="toggleSection('project-view')" class="btn hire">View Project</a> 
+                    <button onclick="toggleChat()" class="btn hire">Chat with Me</button>        
+                </div>      
+            </div>
+
+            <div id="chatbot" class="chatbot-window">
+                <div class="chat-header"><span>Message Gene</span><span style="cursor:pointer" onclick="closeChat()">×</span></div>
+                <div id="chat-box" class="chat-messages">
+                    <div class="bot-msg">Hi! I'm Gene's virtual assistant. Ask me anything about her portfolio!</div>
+                </div>
+                <div class="chat-footer" style="display:flex; padding:10px; background:rgba(255,255,255,0.05);">
+                    <input type="text" id="chat-input" placeholder="Type a message..." style="flex:1; background:transparent; border:1px solid #00bfff; color:white; padding:8px; border-radius:8px; outline:none;">
+                    <button onclick="handleChat()" style="background:none; border:none; color:#00bfff; margin-left:10px; cursor:pointer;"><i class="fa fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">      
+            <div class="overlay-card" style="display:flex; align-items:center; gap:60px;">
+                <button onclick="toggleSection('home')" class="exit-btn"><i class="fas fa-times"></i> Close</button>
+                <div style="flex:1;">
+                    <h2 style="font-size:45px; color:#00bfff; margin-bottom:20px; font-weight:800;">About Me</h2>
+                    <p style="color:#bdc3c7; line-height:1.8; font-size:17px;">I am a passionate BSIT student who enjoys exploring both technology and creativity. My course has helped me develop skills in web development, while my love for designing and editing allows me to create visually appealing and meaningful digital content.</p>
+                </div>
+                <div style="flex:1; text-align:center;"><img src="about.jpg" class="zoomable" style="width:100%; max-width:400px; border-radius:20px; border:4px solid #00bfff; box-shadow: 0 0 25px rgba(0,191,255,0.3);"></div>
+            </div>
+        </section>
+
+        <section id="tutorials">      
+            <div class="overlay-card" style="text-align: center;">
+                <button onclick="toggleSection('home')" class="exit-btn"><i class="fas fa-times"></i> Close</button>
+                <h2 style="color: #00bfff; font-size: 40px; margin-bottom: 10px; font-weight:800;">Improvement Tutorials</h2>      
+                <p style="color: #bdc3c7; margin-bottom: 40px;">Below are the tutorials that helped me improve my skills.</p>
+                <div class="portfolio-grid">      
+                    <div class="portfolio-item"><a href="https://youtu.be/tKT33BgKRqo" target="_blank"><img src="https://img.youtube.com/vi/tKT33BgKRqo/hqdefault.jpg"></a></div>      
+                    <div class="portfolio-item"><a href="https://youtu.be/jQ1sfKIl50E" target="_blank"><img src="https://img.youtube.com/vi/jQ1sfKIl50E/hqdefault.jpg"></a></div>      
+                    <div class="portfolio-item"><a href="https://youtu.be/61mkx_OV61s" target="_blank"><img src="https://img.youtube.com/vi/61mkx_OV61s/hqdefault.jpg"></a></div>
+                    <div class="portfolio-item"><a href="https://youtu.be/BeH1I5n-798" target="_blank"><img src="https://img.youtube.com/vi/BeH1I5n-798/hqdefault.jpg"></a></div>
+                </div>      
+            </div>
+        </section>   
+
+        <section id="project-view">      
+            <div class="overlay-card" style="text-align: center; min-height: 80vh;">
+                <button onclick="toggleSection('home')" class="exit-btn"><i class="fas fa-times"></i> Close</button>
+                <h2 style="color: #00bfff; font-size: 40px; margin-bottom: 30px; font-weight:800;">My Work Portfolio</h2>
+                <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:40px;">      
+                    <button id="btn-work" onclick="showTab('work')" class="tab-btn active-tab">My Work</button>      
+                    <button id="btn-achievements" onclick="showTab('achievements')" class="tab-btn">Achievements</button>      
+                    <button id="btn-outputs" onclick="showTab('outputs')" class="tab-btn">Outputs</button>      
+                </div>      
+
+                <div id="work" class="tab-content" style="display:block;">      
+                    <div class="portfolio-grid">      
+                        <div class="portfolio-item"><img src="project1.jpg" class="zoomable"><div class="work-caption">Banner</div></div>      
+                        <div class="portfolio-item"><img src="project2.jpg" class="zoomable"><div class="work-caption">Product</div></div>
+                        <div class="portfolio-item"><img src="3.jpg" class="zoomable"><div class="work-caption">T-shirt Layout</div></div>
+                        <div class="portfolio-item"><img src="image4.jpg" class="zoomable"><div class="work-caption">Cheese board</div></div>
+                        <div class="portfolio-item"><img src="image5.jpeg" class="zoomable"><div class="work-caption">My sample Banner </div></div>
+                    </div>      
+                </div>      
+
+                <div id="achievements" class="tab-content">      
+                    <div class="portfolio-grid">
+                        <div class="portfolio-item"><img src="c1.jpg" class="zoomable"><div class="work-caption">IT Training/Seminar</div></div>
+                        <div class="portfolio-item"><img src="c2.jpg" class="zoomable"><div class="work-caption">IT Seminar</div></div>
+                        <div class="portfolio-item"><img src="c3.jpg" class="zoomable"><div class="work-caption">Skills Competition</div></div>     
+                    </div>
+                </div>
+
+                <div id="outputs" class="tab-content">
+                    <div class="portfolio-grid">
+                        <div class="portfolio-item">
+                            <div class="output-card">
+                                <i class="fab fa-figma figma-icon"></i>
+                                <h3>Figma E-commerce</h3>
+                                <p style="color: #bdc3c7; margin-bottom: 15px; font-size: 14px;">Explore my E-commerce UI design crafted in Figma</p>
+                                <a href="https://www.figma.com/proto/K0UoxvPLlTPuqUiXQ2a4BO/Untitled?node-id=1-2&p=f&t=QlP7lBNyNptCtJ7N-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A19&show-proto-sidebar=1" target="_blank" class="visit-btn">click here</a>
+                            </div>
+                            <div class="work-caption">UI/UX Design</div>
+                        </div>
+                        <div class="portfolio-item">
+                            <div class="output-card">
+                                <i class="fab fa-figma figma-icon" style="background: linear-gradient(180deg, #0ACF83 0%, #1ABCFE 100%); -webkit-background-clip: text;"></i>
+                                <h3>Figma Portfolio</h3>
+                                <p style="color: #bdc3c7; margin-bottom: 15px; font-size: 14px;">Every design tells a story. 🎨 Built with Figma</p>
+                                <a href="https://www.figma.com/proto/T6tgo8Js8ZMXNbnV172LVv/gene-mae-caramihan-figma?node-id=1-2&t=rFhKyziMdGsyNf5J-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2" target="_blank" class="visit-btn" style="background: #1ABCFE;">click here</a>
+                            </div>
+                            <div class="work-caption">Web Design Prototype</div>
+                        </div>
+                        <div class="portfolio-item">
+                            <div class="output-card">
+                                <i class="fas fa-palette canva-icon"></i>
+                                <h3>Canva Portfolio</h3>
+                                <p style="color: #bdc3c7; margin-bottom: 15px; font-size: 14px;">Explore my portfolio designed through canva</p>
+                                <a href="https://canva.link/zm24aqwm7zb1w6y" target="_blank" class="visit-btn" style="background: #00C4CC;">click here</a>
+                            </div>
+                            <div class="work-caption">Graphic Design</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">  
+            <div class="overlay-card" style="text-align: center;">
+                <button onclick="toggleSection('home')" class="exit-btn"><i class="fas fa-times"></i> Close</button>
+                <h2 style="color: #00bfff; font-size: 40px; margin-bottom: 20px; font-weight:800;">Contact Me</h2>  
+                <div style="display:flex; justify-content:center; gap:25px; margin-bottom:30px; font-size:20px;">
+                    <a href="mailto:genemaecaramihan@gmail.com" style="color:#00bfff;"><i class="fas fa-envelope"></i> Gmail</a>
+                    <a href="https://www.facebook.com/share/1BXf8UhWdn/" target="_blank" style="color:#00bfff;"><i class="fab fa-facebook"></i> Facebook</a>
+                </div>
+                <div class="contact-box">
+                    <form class="contact-form">
+                        <input type="email" placeholder="Email" required>
+                        <textarea placeholder="Message..." required style="height:120px; resize: none;"></textarea>
+                        <button class="submit-btn">Submit Message</button>
+                    </form>
+                </div>
+            </div>
+        </section> 
+    </div>
+
+    <div class="modal" id="modal"><span class="close" id="close">&times;</span><img id="modalImg"></div>  
+
+<script>
+    // Typing Animation
+    const nameText = "Gene Mae Caramihan";
+    const nameContainer = document.getElementById("animated-name");
+    let charIndex = 0;
+    function typeName() {
+        if (charIndex < nameText.length) {
+            nameContainer.innerHTML = nameText.substring(0, charIndex + 1) + '<span class="typing-cursor">|</span>';
+            charIndex++; setTimeout(typeName, 150);
+        } else { nameContainer.innerHTML = nameText + '<span class="typing-cursor">|</span>'; }
+    }
+    window.onload = () => { typeName(); };
+
+    // Section Logic
+    function toggleSection(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(id);
+        if(target) target.classList.add('active');
+
+        const overlays = ['about', 'tutorials', 'project-view', 'contact'];
+        if(overlays.includes(id)) {
+            document.body.style.overflow = 'hidden';
+            document.getElementById('header-top').style.display = 'none';
+        } else {
+            document.body.style.overflow = 'auto';
+            document.getElementById('header-top').style.display = 'flex';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Tab Logic
+    function showTab(tab) {
+        document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+        document.getElementById(tab).style.display = 'block';
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+        if(tab === 'work') document.getElementById('btn-work').classList.add('active-tab');
+        if(tab === 'achievements') document.getElementById('btn-achievements').classList.add('active-tab');
+        if(tab === 'outputs') document.getElementById('btn-outputs').classList.add('active-tab');
+    }
+
+    // UPDATED SMART CHATBOT LOGIC
+    function toggleChat() {
+        const chat = document.getElementById('chatbot');
+        chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+    }
+    function closeChat() { document.getElementById('chatbot').style.display = 'none'; }
+    
+    function handleChat() {
+        const input = document.getElementById('chat-input');
+        const box = document.getElementById('chat-box');
+        const userText = input.value.trim().toLowerCase();
+
+        if(!userText) return;
+
+        // Display User Message
+        box.innerHTML += `<div class="user-msg">${input.value}</div>`;
+        input.value = "";
+
+        // Bot Thinking & Response
+        setTimeout(() => {
+            let botReply = "";
+
+            if (userText.includes("name") || userText.includes("who are you")) {
+                botReply = "The owner of this portfolio is Gene Mae Caramihan.";
+            } 
+            else if (userText.includes("about") || userText.includes("background") || userText.includes("who is gene")) {
+                botReply = "Gene is a passionate BSIT student who loves technology and creativity, specializing in web development and digital design.";
+            } 
+            else if (userText.includes("skill") || userText.includes("expert") || userText.includes("can you do")) {
+                botReply = "Gene is skilled in Web Development (HTML/CSS/JS), UI/UX Design using Figma, and Graphic Design using Canva.";
+            } 
+            else if (userText.includes("contact") || userText.includes("email") || userText.includes("facebook") || userText.includes("reach")) {
+                botReply = "You can contact Gene via email at genemaecaramihan@gmail.com or message her on Facebook!";
+            } 
+            else if (userText.includes("project") || userText.includes("work") || userText.includes("output")) {
+                botReply = "You can see Gene's work by clicking 'View Project' on the home page. She has banners, UI designs, and seminar achievements!";
+            } 
+            else if (userText.includes("hi") || userText.includes("hello") || userText.includes("hey")) {
+                botReply = "Hello! I'm here to answer questions about Gene's portfolio. What would you like to know?";
+            } 
+            else {
+                botReply = "I'm not sure about that. Try asking about Gene's name, skills, about her, or her contact info!";
+            }
+
+            box.innerHTML += `<div class="bot-msg">${botReply}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }, 600);
+    }
+
+    // Modal Logic
+    const modal = document.getElementById("modal");
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('zoomable')) {
+            modal.style.display = "flex";
+            document.getElementById("modalImg").src = e.target.src;
+        }
+    });
+    document.getElementById("close").onclick = () => modal.style.display = "none";
+</script>
+</body>    
+</html>
